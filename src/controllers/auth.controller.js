@@ -22,7 +22,7 @@ class AuthController {
   }
 
   static async verify(req, res) {
-    const token = req.cookies.token_boat;
+    const token = req.cookies.token_boat_maintenance;
 
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
