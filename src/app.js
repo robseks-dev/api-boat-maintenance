@@ -26,12 +26,15 @@ const corsOptions = {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
-      callback(new Error("No permitido por CORS"));
+      callback(new Error('No permitido por CORS'));
     }
   },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true
 };
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use("/api/v1/boats", BoatRoutes);
 app.use("/api/v1/parts", PartRoutes);
