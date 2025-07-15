@@ -14,7 +14,6 @@ class AuthController {
       httpOnly: true,
       sameSite: "none",
       secure: true,
-      domain: "boraboraboat.app",
     });
 
     if (user) return res.json(user);
