@@ -5,7 +5,6 @@ import "dotenv/config";
 
 class AuthController {
   static async login(req, res) {
-    console.log('Acceso a la ruta de login /api/v1/auth/login');
     const { username, password } = req.body;
     const user = await AuthModel.login({ username, password });
 
@@ -13,8 +12,9 @@ class AuthController {
     res.cookie("token_boat_maintenance", token, {
       maxAge: 15 * 60 * 1000,
       httpOnly: true,
-      sameSite: "Strict",
+      sameSite: "none",
       secure: true,
+      domain: "boraboraboat.app",
     });
 
     if (user) return res.json(user);
