@@ -9,8 +9,11 @@ class AuthController {
     const user = await AuthModel.login({ username, password });
 
     const token = await generateToken(user);
-    res.cookie("token_boat", token, {
-      maxAge: 24 * 60 * 60 * 1000,
+    res.cookie("token_boat_maintenance", token, {
+      maxAge: 15 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "Strict",
+      secure: true,
     });
 
     if (user) return res.json(user);
@@ -34,7 +37,7 @@ class AuthController {
   }
 
   static async logout(req, res) {
-    res.clearCookie("token_boat", { httpOnly: true, sameSite: "Strict" });
+    res.clearCookie("token_boat_maintenance", { httpOnly: true, sameSite: "Strict" });
     res.status(400).json({ message: "User logged out" });
   }
 }
