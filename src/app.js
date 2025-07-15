@@ -1,3 +1,14 @@
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("ERROR GRAVE: ¡Rechazo de Promesa no manejado!");
+  console.error("Razón:", reason);
+});
+
+process.on("uncaughtException", (err, origin) => {
+  console.error("ERROR GRAVE: ¡Excepción no capturada!");
+  console.error("Error:", err);
+  console.error("Origen:", origin);
+});
+
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -23,7 +34,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     console.log(`INTENTO DE ACCESO DESDE ORIGEN: ${origin}`);
     if (whitelist.includes(origin) || !origin) {
-      console.log('Acceso permitido por la whitelist de CORS.');
+      console.log("Acceso permitido por la whitelist de CORS.");
       callback(null, true);
     } else {
       console.log("CORS ERROR: Origen no permitido ->", origin);

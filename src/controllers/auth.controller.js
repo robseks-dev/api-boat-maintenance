@@ -5,6 +5,7 @@ import "dotenv/config";
 
 class AuthController {
   static async login(req, res) {
+    console.log('Acceso a la ruta de login /api/v1/auth/login');
     const { username, password } = req.body;
     const user = await AuthModel.login({ username, password });
 
