@@ -1,14 +1,3 @@
-process.on("unhandledRejection", (reason, promise) => {
-  console.error("ERROR GRAVE: ¡Rechazo de Promesa no manejado!");
-  console.error("Razón:", reason);
-});
-
-process.on("uncaughtException", (err, origin) => {
-  console.error("ERROR GRAVE: ¡Excepción no capturada!");
-  console.error("Error:", err);
-  console.error("Origen:", origin);
-});
-
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -27,6 +16,9 @@ import AuthRoutes from "./routes/auth.routes.js";
 import handleGlobalError from "./middlewares/error.controller.js";
 
 const app = express();
+app.disable('x-powered-by');
+app.use(express.json());
+app.use(cookieParser());
 
 const whitelist = ["https://boraboraboat.app", "https://boraboraboat.app/"];
 
@@ -41,11 +33,10 @@ const corsOptions = {
       callback(new Error("No permitido por CORS"));
     }
   },
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
-app.use(express.json());
-app.use(cookieParser());
 
 app.use("/api/v1/boats", BoatRoutes);
 app.use("/api/v1/parts", PartRoutes);
