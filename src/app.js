@@ -19,20 +19,19 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = ["https://client-boat-maintenance.onrender.com/", "https://boraboraboat.app/"];
+const whitelist = ["https://www.boraboraboat.app"];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("No permitido por CORS"));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 
 app.use("/api/v1/boats", BoatRoutes);
 app.use("/api/v1/parts", PartRoutes);
