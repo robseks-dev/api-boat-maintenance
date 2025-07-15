@@ -19,7 +19,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const whitelist = ["https://www.boraboraboat.app"];
+const whitelist = ["https://www.boraboraboat.app/", "https://boraboraboat.app/"];
 
 const corsOptions = {
   origin: function (origin, callback) {
