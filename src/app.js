@@ -23,6 +23,7 @@ const whitelist = ["https://boraboraboat.app/"];
 
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log("PRUEBA", whitelist.includes(origin));
     if (whitelist.includes(origin) || !origin) {
       callback(null, true);
     } else {
