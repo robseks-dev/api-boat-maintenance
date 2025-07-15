@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      font-size: 12px;
+    }
+
+    .header .table-header {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .header table {
+      width: 100%;
+    }
+
+    .header table tr {
+      text-align: center;
+    }
+
+    .header .title {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    .header .title h2 {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .header .line {
+      text-align: right;
+      border-bottom: 2px solid #000;
+      padding: 5px;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    .information-purchase {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    .information-purchase .table-purchase table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+    }
+
+    .information-purchase .table-purchase table td {
+      padding: 3px;
+      border: 1px solid gray;
+    }
+
+    .information-purchase .table-purchase table td.title {
+      background: #eeeeee;
+      font-weight: 600;
+    }
+
+    .articles {
+      margin-top: 30px;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    .articles .table-articles table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .articles .table-articles table thead tr {
+      text-align: left;
+      background: #eeeeee;
+      border: 1px solid gray;
+    }
+
+    .articles .table-articles table thead tr th {
+      padding: 3px;
+    }
+
+    .articles .table-articles table tbody {
+      text-align: left;
+    }
+
+    .articles .table-articles table tbody tr {
+      border-bottom: 1px solid gray;
+    }
+
+    .articles .table-articles table tbody tr td {
+      padding-top: 7px;
+      padding-bottom: 7px;
+      padding-left: 3px;
+      padding-right: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="table-header">
+        {{!-- <table>
+          <tbody>
+             <tr>
+              <td>{{headerName}}</td>
+            </tr>
+            <tr>
+              <td>Nit. {{headerNit}}</td>
+            </tr>
+            <tr>
+              <td>Direccion: {{headerAddress}}</td>
+            </tr>
+            <tr>
+              <td>Telefono: {{headerPhone}}</td>
+            </tr>
+          </tbody>
+        </table> --}}
+        <div class="title">
+          <h2>FACTURA DE MANTENIMIENTO</h2>
+        </div>
+        <div class="line">
+          <p>Fecha de creacion: {{date}}</p>
+        </div>
+      </div>
+    </div>
+    {{!-- <div class="information-purchase">
+      <div class="table-purchase">
+        <table>
+          <tr>
+            <td class="title">Orden de compra N°</td>
+            <td colspan="2">{{purchaseNumber}}</td>
+            <td class="title">Fecha</td>
+            <td colspan="2">{{date}}</td>
+          </tr>
+          <tr>
+            <td class="title">Señores</td>
+            <td>{{thirdName}}</td>
+            <td class="title">Nit</td>
+            <td>{{thirdNit}}</td>
+            <td class="title">Telefono</td>
+            <td>{{thirdPhone}}</td>
+          </tr>
+          <tr>
+            <td class="title">Centro de costo</td>
+            <td>{{cost_center}}</td>
+            <td class="title">Detalle</td>
+            <td colspan="3">{{detail}}</td>
+          </tr>
+          <tr>
+            <td class="title">Estado</td>
+            <td colspan="5">{{status}}</td>
+          </tr>
+        </table>
+      </div>
+    </div> --}}
+    <div class="articles">
+      <div class="table-articles">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Descripcion</th>
+              <th>Parte</th>
+              <th>Lancha</th>
+              {{!-- <th>Horas de navegacion</th> --}}
+              <th>Valor</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each maintenances}}
+              <tr>
+                <td>{{id}}</td>
+                <td>{{description}}</td>
+                <td>{{part}}</td>
+                <td>{{boat}}</td>
+                {{!-- <td>{{hours_navigation}}</td> --}}
+                <td>{{formatNumberFixed value 2}}</td>
+                <td>{{formatNumberFixed total 2}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
