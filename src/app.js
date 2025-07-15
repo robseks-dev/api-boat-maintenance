@@ -16,14 +16,12 @@ import AuthRoutes from "./routes/auth.routes.js";
 import handleGlobalError from "./middlewares/error.controller.js";
 
 const app = express();
-app.use(express.json());
-app.use(cookieParser());
 
-const whitelist = ["https://boraboraboat.app"];
+const whitelist = ["https://boraboraboat.app", "https://boraboraboat.app/"];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log("PRUEBA", whitelist.includes(origin));
+    console.log(`INTENTO DE ACCESO DESDE ORIGEN: ${origin}`);
     if (whitelist.includes(origin) || !origin) {
       callback(null, true);
     } else {
@@ -34,6 +32,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/v1/boats", BoatRoutes);
 app.use("/api/v1/parts", PartRoutes);
