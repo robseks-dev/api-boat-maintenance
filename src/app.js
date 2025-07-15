@@ -19,11 +19,11 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const whitelist = ["https://www.boraboraboat.app/", "https://boraboraboat.app/"];
+const whitelist = ["https://boraboraboat.app/"];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
+    if (whitelist.includes(origin) || !origin) {
       callback(null, true);
     } else {
       console.log("CORS ERROR: Origen no permitido ->", origin);
