@@ -24,12 +24,9 @@ const whitelist = ["https://boraboraboat.app", "https://boraboraboat.app/"];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log(`INTENTO DE ACCESO DESDE ORIGEN: ${origin}`);
     if (whitelist.includes(origin) || !origin) {
-      console.log("Acceso permitido por la whitelist de CORS.");
       callback(null, true);
     } else {
-      console.log("CORS ERROR: Origen no permitido ->", origin);
       callback(new Error("No permitido por CORS"));
     }
   },
