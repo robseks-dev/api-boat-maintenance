@@ -1,7 +1,6 @@
 import puppeteer from "puppeteer";
 import handlebars from "handlebars";
 import fs from "fs";
-import chromium from "chrome-aws-lambda";
 
 handlebars.registerHelper("add", function (a, b) {
   if (typeof a !== "number" || typeof b !== "number") {
@@ -58,20 +57,13 @@ export const generatePDF = async (data, templatePath) => {
     const context = { data };
     const finalHtml = template(context);
 
-    browser = await chromium.puppeteer.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath(),
-      headless: chromium.headless,
-      ignoreHTTPSErrors: true
-    });
-
-    /* browser = await puppeteer.launch({
+    browser = await puppeteer.launch({
       headless: "true",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    }); */
+    });
 
     const page = await browser.newPage();
+
     await page.setContent(finalHtml, { waitUntil: "networkidle0" });
 
     const pdfBuffer = await page.pdf({
