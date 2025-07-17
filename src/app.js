@@ -25,11 +25,12 @@ const whitelist = ["https://boraboraboat.app/", "https://boraboraboat.app"];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.includes(origin) || !origin) {
+    callback(null, true);
+    /* if (whitelist.includes(origin) || !origin) {
       callback(null, true);
     } else {
       callback(new Error("No permitido por CORS"));
-    }
+    } */
   },
   credentials: true,
 };
