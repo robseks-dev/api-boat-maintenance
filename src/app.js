@@ -21,7 +21,7 @@ app.disable('x-powered-by');
 app.use(express.json());
 app.use(cookieParser());
 
-const whitelist = ["https://boraboraboat.app"];
+const whitelist = ["https://boraboraboat.app/", "https://boraboraboat.app"];
 
 const corsOptions = {
   origin: function (origin, callback) {
