@@ -1,5 +1,6 @@
 import { pool } from "../config/database.config.js";
 import { format } from "date-fns";
+import { generatePDF } from "../utils/generatePdf.js";
 
 class InspectionModel {
   static async getBoatToday() {
@@ -10,6 +11,25 @@ class InspectionModel {
     return rows;
   }
 
+  static async getBoatByDate({ date }) {
+    const [rows] = await pool.query(
+      "SELECT * FROM inspection_boat WHERE DATE_FORMAT(date, '%Y-%m-%d') = ?",
+      [date]
+    );
+
+    const grouped = rows.reduce((acc, item) => {
+      const key = item.title;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(item);
+      return acc;
+    }, {});
+
+    const pdf = await generatePDF(grouped, "./src/templates/report-template.hbs");
+    return pdf;
+  }
+
   static async getPassengerToday() {
     const [rows] = await pool.query("SELECT * FROM inspection_passenger WHERE date = ?", [
       format(new Date(), "yyyy-MM-dd"),
@@ -18,22 +38,41 @@ class InspectionModel {
     return rows;
   }
 
-  static async createBoat({ description, value, date }) {
-    const [result] = await pool.query(
-      "INSERT INTO inspection_boat (description, value, date) VALUES (?, ?, ?)",
-      [description, value, date]
+  static async getPassengerByDate({ date }) {
+    const [rows] = await pool.query(
+      "SELECT * FROM inspection_passenger WHERE DATE_FORMAT(date, '%Y-%m-%d') = ?",
+      [date]
     );
 
-    return { id: result.insertId, description, value, date };
+    const grouped = rows.reduce((acc, item) => {
+      const key = item.title;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(item);
+      return acc;
+    }, {});
+
+    const pdf = await generatePDF(grouped, "./src/templates/report-template.hbs");
+    return pdf;
   }
 
-  static async createPassenger({ description, value }) {
+  static async createBoat({ title, description, value, date }) {
     const [result] = await pool.query(
-      "INSERT INTO inspection_passenger (description, value) VALUES (?, ?)",
-      [description, value]
+      "INSERT INTO inspection_boat (title, description, value, date) VALUES (?, ?, ?, ?)",
+      [title, description, value, date]
     );
 
-    return { id: result.insertId, description, value, date };
+    return { id: result.insertId, title, description, value, date };
+  }
+
+  static async createPassenger({ title, description, value }) {
+    const [result] = await pool.query(
+      "INSERT INTO inspection_passenger (title, description, value) VALUES (?, ?, ?)",
+      [title, description, value]
+    );
+
+    return { id: result.insertId, title, description, value };
   }
 
   static async createAccident({

@@ -7,23 +7,39 @@ class InspectionController {
     res.status(400).json({ message: "Inspections not found" });
   }
 
+  static async getBoatByDate(req, res) {
+    const { date } = req.body;
+    const inspection = await InspectionModel.getBoatByDate({ date });
+
+    if (inspection) return res.json(inspection);
+    res.status(400).json({ message: "Inspections not found" });
+  }
+
   static async getPassengerToday(req, res) {
     const inspection = await InspectionModel.getPassengerToday();
     if (inspection) return res.json(inspection);
     res.status(400).json({ message: "Inspections not found" });
   }
 
+  static async getPassengerByDate(req, res) {
+    const { date } = req.body;
+    const inspection = await InspectionModel.getPassengerByDate({ date });
+
+    if (inspection) return res.json(inspection);
+    res.status(400).json({ message: "Inspections not found" });
+  }
+
   static async createBoat(req, res) {
-    const { description, value, date } = req.body;
-    const inspection = await InspectionModel.createBoat({ description, value, date });
+    const { title, description, value, date } = req.body;
+    const inspection = await InspectionModel.createBoat({ title, description, value, date });
 
     if (inspection) return res.json(inspection);
     res.status(400).json({ message: "Inspection not created" });
   }
 
   static async createPassenger(req, res) {
-    const { description, value } = req.body;
-    const inspection = await InspectionModel.createPassenger({ description, value });
+    const { title, description, value } = req.body;
+    const inspection = await InspectionModel.createPassenger({ title, description, value });
 
     if (inspection) return res.json(inspection);
     res.status(400).json({ message: "Inspection not created" });

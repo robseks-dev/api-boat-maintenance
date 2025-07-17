@@ -11,19 +11,62 @@ class BoatModel {
     return rows;
   }
 
-  static async create({ name, registration_number, brand, model, year, plate }) {
+  static async create({
+    name,
+    enrollment,
+    port_registry,
+    arching,
+    distinctive,
+    omi_number,
+    cataloging,
+    length,
+    date,
+  }) {
     const [result] = await pool.query(
-      "INSERT INTO boats (name, registration_number, brand, model, year, plate) VALUES (?, ?, ?, ?, ?, ?)",
-      [name, registration_number, brand, model, year, plate]
+      "INSERT INTO boats (name, enrollment, port_registry, arching, distinctive, omi_number, cataloging, length, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [name, enrollment, port_registry, arching, distinctive, omi_number, cataloging, length, date]
     );
 
-    return { id: result.insertId, name, registration_number, brand, model, year, plate };
+    return {
+      id: result.insertId,
+      name,
+      enrollment,
+      port_registry,
+      arching,
+      distinctive,
+      omi_number,
+      cataloging,
+      length,
+      date,
+    };
   }
 
-  static async update({ id, name, registration_number, brand, model, year, plate }) {
+  static async update({
+    id,
+    name,
+    enrollment,
+    port_registry,
+    arching,
+    distinctive,
+    omi_number,
+    cataloging,
+    length,
+    date,
+  }) {
     const [result] = await pool.query(
-      "UPDATE boats SET name = ?, registration_number = ?, brand = ?, model = ?, year = ?, plate = ? WHERE id = ?",
-      [name, registration_number, brand, model, year, plate, id]
+      "UPDATE boats SET name = ?, enrollment = ?, port_registry = ?, arching = ?, distinctive = ?, omi_number = ?, cataloging = ?, length = ?, date = ? WHERE id = ?",
+      [
+        name,
+        enrollment,
+        port_registry,
+        arching,
+        distinctive,
+        omi_number,
+        cataloging,
+        length,
+        date,
+        id,
+      ]
     );
 
     return result.affectedRows;

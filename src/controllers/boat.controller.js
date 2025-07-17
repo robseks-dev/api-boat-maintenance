@@ -14,23 +14,54 @@ class BoatController {
   }
 
   static async create(req, res) {
-    const { name, registration_number, brand, model, year, plate } = req.body;
-    const boat = await BoatModel.create({ name, registration_number, brand, model, year, plate });
+    const {
+      name,
+      enrollment,
+      port_registry,
+      arching,
+      distinctive,
+      omi_number,
+      cataloging,
+      length,
+      date,
+    } = req.body;
+    const boat = await BoatModel.create({
+      name,
+      enrollment,
+      port_registry,
+      arching,
+      distinctive,
+      omi_number,
+      cataloging,
+      length,
+      date,
+    });
 
     if (boat) return res.json(boat);
     res.status(400).json({ message: "Boat not created" });
   }
 
   static async update(req, res) {
-    const { name, registration_number, brand, model, year, plate } = req.body;
+    const { name,
+      enrollment,
+      port_registry,
+      arching,
+      distinctive,
+      omi_number,
+      cataloging,
+      length,
+      date } = req.body;
     const { id } = req.params;
     const result = await BoatModel.update({
       name,
-      registration_number,
-      brand,
-      model,
-      year,
-      plate,
+      enrollment,
+      port_registry,
+      arching,
+      distinctive,
+      omi_number,
+      cataloging,
+      length,
+      date,
       id,
     });
 

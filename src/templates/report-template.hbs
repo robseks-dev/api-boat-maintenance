@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reporte de Inspeccion</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+    body {
+        font-family: "Inter", sans-serif;
+        color: #333;
+        line-height: 1.6;
+    }
+    .container {
+        width: 90%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+    h1 {
+        font-size: 24px;
+        color: #2c3e50;
+    }
+    h2 {
+        font-size: 16px;
+        color: #0056b3;
+        border-bottom: 2px solid #0056b3;
+        padding-bottom: 10px;
+        margin-top: 40px;
+    }
+    table {
+        font-size: 13px;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    thead th {
+        background-color: #007bff;
+        color: #ffffff;
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    .check-col {
+        text-align: center;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    /* Estilos para los datos que no van en la tabla */
+    .extra-data {
+        margin-top: 20px;
+    }
+    .extra-title {
+        font-weight: bold;
+        color: #555;
+        font-size: 13px;
+        margin-bottom: 0;
+    }
+    .extra-value {
+        font-size: 13px;
+        background-color: #f8f9fa;
+        border-left: 4px solid #6c757d; /* Gris para diferenciar */
+        padding: 10px 15px;
+        margin-top: 5px;
+        white-space: pre-wrap;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Reporte de Operaciones e Inspeccion</h1>
+
+    {{#each data}}
+    <h2>{{@key}}</h2>
+
+    {{! Se revisa el primer elemento para decidir el formato de todo el grupo }}
+    {{#if (isCheckable this.[0].value)}}
+
+        {{! Opción A: Si son valores "si/no", se crea la tabla de verificación }}
+        <table>
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>SI</th>
+                    <th>NO</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this}}
+                <tr>
+                    <td>{{this.description}}</td>
+                    <td class="check-col">
+                        {{#if (eq this.value "si")}}x{{/if}}
+                    </td>
+                    <td class="check-col">
+                        {{#unless (eq this.value "si")}}x{{/unless}}
+                    </td>
+                    <td>{{formatDate this.date}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+    {{else}}
+
+        {{! Opción B: Si es otro valor, se muestra como texto (sin tabla) }}
+        <div class="extra-data">
+            <p class="extra-title">{{this.[0].description}}</p>
+            <p class="extra-value">{{this.[0].value}}</p>
+        </div>
+
+    {{/if}}
+    {{/each}}
+</div>
+
+</body>
+</html>
