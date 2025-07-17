@@ -1,11 +1,7 @@
 import puppeteer from "puppeteer";
 import handlebars from "handlebars";
 import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import chromium from "chrome-aws-lambda";
 
 handlebars.registerHelper("add", function (a, b) {
   if (typeof a !== "number" || typeof b !== "number") {
@@ -62,11 +58,12 @@ export const generatePDF = async (data, templatePath) => {
     const context = { data };
     const finalHtml = template(context);
 
-    process.env.PUPPETEER_CACHE_DIR = path.join(__dirname, '.cache', 'puppeteer');
-
-    browser = await puppeteer.launch({
-      headless: "new",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    browser = await chromium.puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath,
+      headless: true,
+      ignoreHTTPSErrors: true,
     });
 
     const page = await browser.newPage();
