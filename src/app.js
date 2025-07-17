@@ -17,11 +17,16 @@ import AuthRoutes from "./routes/auth.routes.js";
 import handleGlobalError from "./middlewares/error.controller.js";
 
 const app = express();
-app.disable('x-powered-by');
+app.disable("x-powered-by");
 app.use(express.json());
 app.use(cookieParser());
 
-const whitelist = ["https://boraboraboat.app/", "https://boraboraboat.app"];
+const whitelist = [
+  "https://boraboraboat.app/",
+  "https://boraboraboat.app",
+  "https://www.boraboraboat.app/",
+  "https://www.boraboraboat.app",
+];
 
 const corsOptions = {
   origin: function (origin, callback) {
